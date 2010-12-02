@@ -1,4 +1,9 @@
-require 'httparty'
+begin
+  require 'httparty'
+rescue LoadError
+  require 'rubygems'
+  require 'httparty'
+end
 require 'uri'
 
 module ToLang
