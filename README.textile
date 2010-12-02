@@ -1,0 +1,3 @@
+h1. to_lang
+
+*to_lang* is a Ruby gem that uses the Google Translate API to allow you to perform a translation directly on a string.
