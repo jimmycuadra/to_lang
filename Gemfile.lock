@@ -1,0 +1,19 @@
+PATH
+  remote: .
+  specs:
+    to_lang (0.0.1)
+      httparty (~> 0.6.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    crack (0.1.8)
+    httparty (0.6.1)
+      crack (= 0.1.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  httparty (~> 0.6.1)
+  to_lang!
