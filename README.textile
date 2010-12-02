@@ -2,6 +2,10 @@ h1. to_lang
 
 *to_lang* is a Ruby gem that uses the Google Translate API to allow you to perform a translation directly on a string.
 
+h2. Installation
+
+Simply run @gem install to_lang@.
+
 h2. Usage
 
 To use *to_lang*, require the library, then call @ToLang.start@ with your Google Translate API key to initialize the connector and include the methods in @String@. Then you have access to @String#translate@.
