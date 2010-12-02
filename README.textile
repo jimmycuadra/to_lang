@@ -1,3 +1,39 @@
 h1. to_lang
 
 *to_lang* is a Ruby gem that uses the Google Translate API to allow you to perform a translation directly on a string.
+
+h2. Usage
+
+To use *to_lang*, require the library, then call @ToLang.start@ with your Google Translate API key to initialize the connector and include the methods in @String@. Then you have access to @String#translate@.
+
+bq. *translate(to, *options)*
+_to_ (required): a string indicating the language to translate to, e.g. "es"
+_options[:from]_ (optional): a string indicating the language of the original string, used when automatic language detection is not accurate
+
+h2. Examples
+
+Load and initialize *to_lang*:
+
+bq. require 'to_lang'
+ToLang.start('YOUR_GOOGLE_TRANSLATE_API_KEY')
+
+Translate some text to Spanish:
+
+bq. "Very cool gem!".translate('es')
+# "Muy fresco joya!"
+
+If the source string is of an ambiguous language, the translation might not work as expected. In this case, you can specify the source language explicitly with the @:from@ option:
+
+bq. "a pie".translate('es')
+# "a pie"
+"a pie".translate('es', :from => 'en')
+# "un pastel"
+
+h2. Roadmap
+
+- Add tests for current code. *to_lang* is in its infancy so use at your own risk.
+- Add automagic sugar methods for translating to specific languages, such as @to_spanish@ and @to_spanish_from_english@
+
+h2. Feedback and Contributions
+
+Feedback is appreciated, as are patch contributions. Feel free to fork the project and send me a pull request.
