@@ -13,10 +13,27 @@ module ToLang
       @key = key
     end
 
-    def request(q, source, target)
-      encoded_q = URI.escape(q)
-      response = self.class.get "#{API_URL}?key=#{@key}&q=#{encoded_q}&source=#{source}&target=#{target}"
+    def request(q, target, *args)
+      response = self.class.get request_url(q, target, *args)
       response.parsed_response["data"]["translations"][0]["translatedText"]
+    end
+
+    private
+
+    def request_url(q, target, *args)
+      options = extract_options(*args)
+      source = options[:from]
+      url = "#{API_URL}?key=#{@key}&q=#{URI.escape(q)}&target=#{target}"
+      url += "&source=#{source}" if source
+      url
+    end
+
+    def extract_options(*args)
+      if args.last.is_a? Hash
+        args.pop
+      else
+        {}
+      end
     end
   end
 end

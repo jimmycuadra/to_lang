@@ -12,8 +12,8 @@ module ToLang
   end
 
   module InstanceMethods
-    def translate(source, target)
-      ToLang.connector.request(self, source, target)
+    def translate(target, *args)
+      ToLang.connector.request(self, target, *args)
     end
   end
 end
