@@ -1,14 +1,13 @@
 require File.expand_path("../to_lang/connector", __FILE__)
 
 module ToLang
-  def self.start(key)
-    @@connector = ToLang::Connector.new(key)
+  class << self
+    attr_reader :connector
 
-    String.send(:include, InstanceMethods)
-  end
-
-  def self.connector
-    @@connector
+    def start(key)
+      @connector = ToLang::Connector.new(key)
+      String.send(:include, InstanceMethods)
+    end
   end
 
   module InstanceMethods

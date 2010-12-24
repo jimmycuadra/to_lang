@@ -4,10 +4,8 @@ require 'test/unit'
 require 'to_lang'
 
 class ToLang::ToLangTest < Test::Unit::TestCase
-  def test_connector_should_not_exist_by_default
-    assert_raise NameError do
-      ToLang.connector
-    end
+  def test_connector_should_not_exist_before_calling_start
+    assert_nil ToLang.connector
   end
 
   def test_start_should_initialize_connector
@@ -17,6 +15,7 @@ class ToLang::ToLangTest < Test::Unit::TestCase
 
   def test_start_should_include_instance_methods_in_string
     ToLang.start('abcdefg')
+    assert String.include? ::ToLang::InstanceMethods
     assert_respond_to 'test string', :translate
   end
 end
