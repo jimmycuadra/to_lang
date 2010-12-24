@@ -15,7 +15,7 @@ class ToLang::ToLangTest < Test::Unit::TestCase
 
   def test_start_should_include_instance_methods_in_string
     ToLang.start('abcdefg')
-    assert String.include? ::ToLang::InstanceMethods
+    assert String.include? ::ToLang::StringMethods
     assert_respond_to 'test string', :translate
   end
 end

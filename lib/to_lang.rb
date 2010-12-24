@@ -6,11 +6,11 @@ module ToLang
 
     def start(key)
       @connector = ToLang::Connector.new(key)
-      String.send(:include, InstanceMethods)
+      String.send(:include, StringMethods)
     end
   end
 
-  module InstanceMethods
+  module StringMethods
     def translate(target, *args)
       ToLang.connector.request(self, target, *args)
     end
