@@ -1,15 +1,8 @@
-begin
-  require 'httparty'
-rescue LoadError
-  require 'rubygems'
-  require 'httparty'
-end
+require 'httparty'
 require 'uri'
 
 module ToLang
   class Connector
-    include HTTParty
-
     API_URL = "https://www.googleapis.com/language/translate/v2"
 
     attr_reader :key
@@ -19,7 +12,7 @@ module ToLang
     end
 
     def request(q, target, *args)
-      response = self.class.get request_url(q, target, *args)
+      response = HTTParty.get request_url(q, target, *args)
       response.parsed_response["data"]["translations"][0]["translatedText"]
     end
 
