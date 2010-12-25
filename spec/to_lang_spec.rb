@@ -25,5 +25,13 @@ describe "An instance of String" do
     it "responds to :translate" do
       String.new.should respond_to :translate
     end
+
+    context "when sent :translate" do
+      it "calls ToLang::Connector#request" do
+        ToLang.connector.stub(:request)
+        ToLang.connector.should_receive(:request).with("hello world", "es")
+        "hello world".translate("es")
+      end
+    end
   end
 end
