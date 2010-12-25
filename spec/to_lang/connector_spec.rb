@@ -47,5 +47,12 @@ describe ToLang::Connector do
         end
       end
     end
+
+    context "with a bad language pair" do
+      it "raises an exception" do
+        stub_bad_response "Bad language pair: en|en"
+        expect { @connector.request("a pie", "en", :from => "en") }.to raise_error(RuntimeError, "Bad language pair: en|en")
+      end
+    end
   end
 end

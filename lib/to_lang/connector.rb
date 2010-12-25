@@ -13,6 +13,7 @@ module ToLang
 
     def request(q, target, *args)
       response = HTTParty.get request_url(q, target, *args)
+      raise response.parsed_response["error"]["message"] if response.parsed_response["error"] && response.parsed_response["error"]["message"]
       response.parsed_response["data"]["translations"][0]["translatedText"]
     end
 
