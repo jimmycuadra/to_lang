@@ -35,7 +35,6 @@ bq. "a pie".translate('es')
 
 h2. Roadmap
 
-- Improve test coverage. *to_lang* is in its infancy so use at your own risk.
 - Add automagic sugar methods for translating to specific languages, such as @to_spanish@ and @to_spanish_from_english@
 
 h2. Feedback and Contributions
