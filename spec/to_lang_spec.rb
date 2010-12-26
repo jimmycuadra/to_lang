@@ -45,5 +45,18 @@ describe "A string" do
         "hello_world".should respond_to "to_#{language}"
       end
     end
+
+    context "when a magic method has been called once" do
+      before :each do
+        ToLang.connector.stub(:request)
+        "hello world".to_spanish
+      end
+
+      it "defines the method and does not call :method_missing the next time" do
+        string = "hello world"
+        string.should_not_receive(:method_missing)
+        string.to_spanish
+      end
+    end
   end
 end

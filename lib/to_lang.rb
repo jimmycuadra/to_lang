@@ -17,7 +17,13 @@ module ToLang
       String.class_eval do
         def method_missing(method, *args, &block)
           if method.to_s =~ /^to_(.*)$/ && CODEMAP[$1]
-            self.translate(CODEMAP[$1])
+            new_method_name = "to_#{$1}".to_sym
+
+            self.class.send(:define_method, new_method_name, Proc.new {
+              translate(CODEMAP[$1])
+            })
+
+            send new_method_name
           else
             super
           end
