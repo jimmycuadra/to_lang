@@ -1,3 +1,4 @@
+require File.expand_path("../to_lang/codemap", __FILE__)
 require File.expand_path("../to_lang/connector", __FILE__)
 
 module ToLang

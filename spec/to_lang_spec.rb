@@ -16,7 +16,7 @@ describe ToLang do
   end
 end
 
-describe "An instance of String" do
+describe "A string" do
   context "after ToLang has received :start" do
     before :all do
       ToLang.start('apikey')
@@ -31,6 +31,18 @@ describe "An instance of String" do
         ToLang.connector.stub(:request)
         ToLang.connector.should_receive(:request).with("hello world", "es")
         "hello world".translate("es")
+      end
+    end
+
+    ToLang::CODEMAP.each do |language, code|
+      it "translates to #{language} when sent :to_#{language}" do
+        ToLang.connector.stub(:request)
+        ToLang.connector.should_receive(:request).with("hello world", code)
+        "hello world".send("to_#{language}")
+      end
+
+      it "will then respond_to? :to_#{language}" do
+        "hello_world".should respond_to "to_#{language}"
       end
     end
   end
