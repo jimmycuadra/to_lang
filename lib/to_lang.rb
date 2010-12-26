@@ -8,6 +8,29 @@ module ToLang
     def start(key)
       @connector = ToLang::Connector.new(key)
       String.send(:include, StringMethods)
+      add_magic_methods
+    end
+
+    private
+
+    def add_magic_methods
+      String.class_eval do
+        def method_missing(method, *args, &block)
+          if method.to_s =~ /^to_(.*)$/ && CODEMAP[$1]
+            self.translate(CODEMAP[$1])
+          else
+            super
+          end
+        end
+
+        def respond_to?(method, include_private = false)
+          if method.to_s =~ /^to_(.*)$/ && CODEMAP[$1]
+            true
+          else
+            super
+          end
+        end
+      end
     end
   end
 
