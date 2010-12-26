@@ -39,14 +39,24 @@ describe "A string" do
     end
 
     ToLang::CODEMAP.each do |language, code|
+      it "will respond_to :to_#{language}" do
+        "hello_world".should respond_to "to_#{language}"
+      end
+
+      it "will respond to :to_#{language}_from_english" do
+        "hello_world".should respond_to "to_#{language}_from_english"
+      end
+
       it "translates to #{language} when sent :to_#{language}" do
         ToLang.connector.stub(:request)
         ToLang.connector.should_receive(:request).with("hello world", code)
         "hello world".send("to_#{language}")
       end
 
-      it "will then respond_to? :to_#{language}" do
-        "hello_world".should respond_to "to_#{language}"
+      it "translates to #{language} from english when sent :to_#{language}_from_english" do
+        ToLang.connector.stub(:request)
+        ToLang.connector.should_receive(:request).with("hello world", code, :from => 'en')
+        "hello world".send("to_#{language}_from_english")
       end
     end
 
@@ -54,12 +64,14 @@ describe "A string" do
       before :each do
         ToLang.connector.stub(:request)
         "hello world".to_spanish
+        "hello world".to_spanish_from_english
       end
 
       it "defines the method and does not call :method_missing the next time" do
         string = "hello world"
         string.should_not_receive(:method_missing)
         string.to_spanish
+        string.to_spanish_from_english
       end
     end
   end
