@@ -6,9 +6,11 @@ module ToLang
     attr_reader :connector
 
     def start(key)
+      return false if defined?(@connector) && !@connector.nil?
       @connector = ToLang::Connector.new(key)
       String.send(:include, StringMethods)
       add_magic_methods
+      true
     end
 
     private
