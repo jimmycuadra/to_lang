@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Jimmy Cuadra"]
   s.email       = ["jimmy@jimmycuadra.com"]
   s.homepage    = "https://github.com/jimmycuadra/to_lang"
-  s.summary     = %q{A Ruby client for the Google Translate API built directly into String}
-  s.description = %q{A Ruby client for the Google Translate API built directly into String}
+  s.summary     = %q{Adds language translation methods to strings, backed by the Google Translate API}
+  s.description = %q{Adds language translation methods to strings, backed by the Google Translate API}
   s.rubyforge_project = s.name
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

@@ -1,6 +1,6 @@
 h1. to_lang
 
-*to_lang* is a Ruby gem that uses the Google Translate API to allow you to perform a translation directly on a string.
+*to_lang* is a Ruby library that adds language translation methods to strings, backed by the Google Translate API.
 
 h2. Installation
 
@@ -8,11 +8,7 @@ Simply run @gem install to_lang@.
 
 h2. Usage
 
-To use *to_lang*, require the library, then call @ToLang.start@ with your Google Translate API key to initialize the connector and include the methods in @String@. Then you have access to @String#translate@.
-
-bq. *translate(to, *options)*
-_to_ (required): a string indicating the language to translate to, e.g. "es"
-_options[:from]_ (optional): a string indicating the language of the original string, used when automatic language detection is not accurate
+To use *to_lang*, require the library, then call @ToLang.start@ with your Google Translate API key. At this point you will have access to all the new translation methods, which take the form @to_language@, where "language" is the language you wish to translate to. Google Translate attempts to detect the source language, but you can specify it explicitly by calling methods in the form @to_language_from_source_language@, where "source_language" is the source language. These methods are generated dynamically and will not appear in a call to @String.new.methods@ until they have been called once. Strings will, however, @respond_to?@ these methods prior to their dynamic definition.
 
 h2. Examples
 
@@ -23,20 +19,79 @@ ToLang.start('YOUR_GOOGLE_TRANSLATE_API_KEY')
 
 Translate some text to Spanish:
 
-bq. "Very cool gem!".translate('es')
-# "Muy fresco joya!"
+bq. "Very cool gem!".to_spanish
+=> "Muy fresco joya!"
 
-If the source string is of an ambiguous language, the translation might not work as expected. In this case, you can specify the source language explicitly with the @:from@ option:
+A case where the source language is ambiguous:
 
-bq. "a pie".translate('es')
-# "a pie"
-"a pie".translate('es', :from => 'en')
-# "un pastel"
+bq. "a pie".to_spanish
+=> "a pie"
+"a pie".to_spanish_from_english
+=> "un pastel"
+
+h2. Supported Languages
+
+*to_lang* adds the following methods to strings. Each of these methods can be called with an explicit source language by appending @_to_source_language@ to the method name.
+
+* to_afrikaans
+* to_albanian
+* to_arabic
+* to_basque
+* to_belarusian
+* to_bulgarian
+* to_catalan
+* to_simplified_chinese
+* to_traditional_chinese
+* to_croatian
+* to_czech
+* to_danish
+* to_dutch
+* to_english
+* to_estonian
+* to_filipino
+* to_finnish
+* to_french
+* to_galician
+* to_german
+* to_greek
+* to_haitian_creole
+* to_hebrew
+* to_hindi
+* to_hungarian
+* to_icelandic
+* to_indonesian
+* to_irish
+* to_italian
+* to_japanese
+* to_latvian
+* to_lithuanian
+* to_macedonian
+* to_malay
+* to_maltese
+* to_norwegian
+* to_persian
+* to_polish
+* to_portuguese
+* to_romanian
+* to_russian
+* to_serbian
+* to_slovak
+* to_slovenian
+* to_spanish
+* to_swahili
+* to_swedish
+* to_thai
+* to_turkish
+* to_ukrainian
+* to_vietnamese
+* to_welsh
+* to_yiddish
 
 h2. Roadmap
 
-- Add automagic sugar methods for translating to specific languages, such as @to_spanish@ and @to_spanish_from_english@
+- Add complete documentation for the library.
+- Add Unicode support for Ruby 1.8. *to_lang* currently works safely only under 1.9.
 
 h2. Feedback and Contributions
 
-Feedback is appreciated, as are patch contributions. Feel free to fork the project and send me a pull request.
+Feedback is greatly appreciated, as are patch contributions. Feel free to fork the project and send me a pull request.
