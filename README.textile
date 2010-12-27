@@ -87,6 +87,10 @@ h2. Supported Languages
 * to_welsh
 * to_yiddish
 
+h2. Documentation
+
+API documentation can be found at "rubydoc.info":http://rubydoc.info/github/jimmycuadra/to_lang/master/frames.
+
 h2. Roadmap
 
 - Add complete documentation for the library.
