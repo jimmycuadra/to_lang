@@ -1,10 +1,24 @@
 require File.expand_path("../to_lang/codemap", __FILE__)
 require File.expand_path("../to_lang/connector", __FILE__)
 
+# {ToLang} is a Ruby library that adds language translation methods to strings, backed by the Google Translate API.
+#
+# @author Jimmy Cuadra
+# @see https://github.com/jimmycuadra/to_lang Source on GitHub
+#
 module ToLang
   class << self
+    # A {ToLang::Connector} object to use for translation requests.
+    #
+    # @return [ToLang::Constructor, NilClass] An initialized {ToLang::Connector connector} or nil.
     attr_reader :connector
 
+    # Initializes {ToLang}, after which the translation methods will be available from strings.
+    #
+    # @param [String] key A Google Translate API key.
+    #
+    # @return [Boolean] True if initialization succeeded, false if this method has already been called successfully.
+    #
     def start(key)
       return false if defined?(@connector) && !@connector.nil?
       @connector = ToLang::Connector.new(key)
@@ -15,6 +29,8 @@ module ToLang
 
     private
 
+    # Adds dynamic methods to strings by overriding @method_missing@ and @respond_to?@.
+    #
     def add_magic_methods
       String.class_eval do
         def method_missing(method, *args, &block)
@@ -52,7 +68,17 @@ module ToLang
     end
   end
 
+  # The methods {ToLang} will mix into the String class when initialized.
+  #
   module StringMethods
+    # Translates a string to another language. All the magic methods use this internally. It, in turn, forwards
+    # everything on to {ToLang::Connector#request}
+    #
+    # @param [String] target The language code for the language to translate to.
+    # @param args Any additional arguments, such as the source language.
+    #
+    # @return [String] The translated string.
+    #
     def translate(target, *args)
       ToLang.connector.request(self, target, *args)
     end
