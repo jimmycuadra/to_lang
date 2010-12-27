@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rspec", "~> 2.3"
   s.add_development_dependency "simplecov", "~> 0.3"
   s.add_development_dependency "yard", "~> 0.6"
+  s.add_development_dependency "RedCloth", "~> 4.2"
 end
