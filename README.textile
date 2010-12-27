@@ -93,8 +93,7 @@ API documentation can be found at "rubydoc.info":http://rubydoc.info/github/jimm
 
 h2. Roadmap
 
-- Add complete documentation for the library.
-- Add Unicode support for Ruby 1.8. *to_lang* currently works safely only under 1.9.
+* Add Unicode support for Ruby 1.8. *to_lang* currently works safely only under 1.9.
 
 h2. Feedback and Contributions
 
