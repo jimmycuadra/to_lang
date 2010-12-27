@@ -8,7 +8,11 @@ Simply run @gem install to_lang@.
 
 h2. Usage
 
-To use *to_lang*, require the library, then call @ToLang.start@ with your Google Translate API key. At this point you will have access to all the new translation methods, which take the form @to_language@, where "language" is the language you wish to translate to. Google Translate attempts to detect the source language, but you can specify it explicitly by calling methods in the form @to_language_from_source_language@, where "source_language" is the source language. These methods are generated dynamically and will not appear in a call to @String.new.methods@ until they have been called once. Strings will, however, @respond_to?@ these methods prior to their dynamic definition.
+To use *to_lang*, require the library, then call @ToLang.start@ with your Google Translate API key. At this point you will have access to all the new translation methods, which take the form @to_language@, where "language" is the language you wish to translate to.
+
+Google Translate attempts to detect the source language, but you can specify it explicitly by calling methods in the form @to_language_from_source_language@, where "source_language" is the source language. These methods are generated dynamically and will not appear in a call to @String.new.methods@ until they have been called once. Strings will, however, @respond_to?@ these methods prior to their dynamic definition.
+
+The dynamic methods are simply syntactic sugar for @String#translate@, which you can use directly as well.
 
 h2. Examples
 
@@ -27,6 +31,13 @@ A case where the source language is ambiguous:
 bq. "a pie".to_spanish
 => "a pie"
 "a pie".to_spanish_from_english
+=> "un pastel"
+
+Using @String#translate@ directly:
+
+bq. "hello world".translate('es')
+=> "hola mundo"
+"a pie".translate('es', :from => 'en')
 => "un pastel"
 
 h2. Supported Languages
