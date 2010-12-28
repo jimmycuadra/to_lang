@@ -23,17 +23,19 @@ module ToLang
     def start(key)
       return false if defined?(@connector) && !@connector.nil?
       @connector = ToLang::Connector.new(key)
-      String.send(:include, StringMethods)
-      add_magic_methods
+      add_translation_methods
       true
     end
 
     private
 
-    # Adds dynamic methods to strings by overriding @method_missing@ and @respond_to?@.
+    # Includes ToLang::StringMethods in String and adds dynamic methods
+    # by overriding @method_missing@ and @respond_to?@.
     #
-    def add_magic_methods
+    def add_translation_methods
       String.class_eval do
+        include StringMethods
+
         def method_missing(method, *args, &block)
           if method.to_s =~ /^to_(.*)_from_(.*)$/ && CODEMAP[$1] && CODEMAP[$2]
             new_method_name = "to_#{$1}_from_#{$2}".to_sym
