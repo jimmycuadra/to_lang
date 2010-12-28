@@ -16,6 +16,10 @@ module ToLang
       ToLang.connector.request(self, target, *args)
     end
 
+    # Chain @method_missing@ in case another library has used it.
+    #
+    alias_method :original_method_missing, :method_missing
+
     # Overrides @method_missing@ to catch and define dynamic translation methods.
     #
     # @private
@@ -32,7 +36,7 @@ module ToLang
 
           return send(new_method_name)
         else
-          super
+          original_method_missing(method, *args, &block)
         end
       when /^to_(.*)$/
         if CODEMAP[$1]
@@ -44,12 +48,15 @@ module ToLang
 
           return send(new_method_name)
         else
-          super
+          original_method_missing(method, *args, &block)
         end
       else
-        super
+        original_method_missing(method, *args, &block)
       end
     end
+
+    # Chain @respond_to?@ in case another library has used it.
+    alias_method :original_respond_to?, :respond_to?
 
     # Overrides @respond_to?@ to make strings aware of the dynamic translation methods.
     #
@@ -63,7 +70,7 @@ module ToLang
         return true if CODEMAP[$1]
       end
 
-      super
+      original_respond_to?(method, include_private)
     end
   end
 end

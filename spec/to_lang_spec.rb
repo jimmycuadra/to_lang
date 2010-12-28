@@ -74,5 +74,17 @@ describe "A string" do
         string.to_spanish_from_english
       end
     end
+
+    it "calls the original :method_missing if there is no language match in the first form" do
+      expect { "hello world".to_foo }.to raise_error(NoMethodError)
+    end
+
+    it "calls the original :method_missing if there is a bad language match in the second form" do
+      expect { "hello world".to_foo_from_bar }.to raise_error(NoMethodError)
+    end
+
+    it "calls the original :method_missing if the method does not match either form" do
+      expect { "hello world".foo }.to raise_error(NoMethodError)
+    end
   end
 end
