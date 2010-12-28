@@ -21,22 +21,31 @@ module ToLang
     # @private
     #
     def method_missing(method, *args, &block)
-      if method.to_s =~ /^to_(.*)_from_(.*)$/ && CODEMAP[$1] && CODEMAP[$2]
-        new_method_name = "to_#{$1}_from_#{$2}".to_sym
+      case method.to_s
+      when /^to_(.*)_from_(.*)$/
+        if CODEMAP[$1] && CODEMAP[$2]
+          new_method_name = "to_#{$1}_from_#{$2}".to_sym
 
-        self.class.send(:define_method, new_method_name) do
-          translate(CODEMAP[$1], :from => CODEMAP[$2])
+          self.class.send(:define_method, new_method_name) do
+            translate(CODEMAP[$1], :from => CODEMAP[$2])
+          end
+
+          return send(new_method_name)
+        else
+          super
         end
+      when /^to_(.*)$/
+        if CODEMAP[$1]
+          new_method_name = "to_#{$1}".to_sym
 
-        send new_method_name
-      elsif method.to_s =~ /^to_(.*)$/ && CODEMAP[$1]
-        new_method_name = "to_#{$1}".to_sym
+          self.class.send(:define_method, new_method_name) do
+            translate(CODEMAP[$1])
+          end
 
-        self.class.send(:define_method, new_method_name) do
-          translate(CODEMAP[$1])
+          return send(new_method_name)
+        else
+          super
         end
-
-        send new_method_name
       else
         super
       end
