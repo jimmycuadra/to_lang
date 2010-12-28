@@ -1,4 +1,3 @@
-require File.expand_path("../to_lang/codemap", __FILE__)
 require File.expand_path("../to_lang/connector", __FILE__)
 require File.expand_path("../to_lang/string_methods", __FILE__)
 
@@ -12,6 +11,7 @@ module ToLang
     # A {ToLang::Connector} object to use for translation requests.
     #
     # @return [ToLang::Constructor, NilClass] An initialized {ToLang::Connector connector} or nil.
+    #
     attr_reader :connector
 
     # Initializes {ToLang}, after which the translation methods will be available from strings.
