@@ -3,4 +3,4 @@ SimpleCov.start do
   add_filter "/spec/"
 end
 
-require File.expand_path('../../lib/to_lang', __FILE__)
+require "to_lang"
