@@ -24,7 +24,6 @@ module ToLang
       return false if defined?(@connector) && !@connector.nil?
       @connector = ToLang::Connector.new(key)
       String.send(:include, StringMethods)
-      true
     end
   end
 end
