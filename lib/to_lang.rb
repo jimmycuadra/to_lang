@@ -1,5 +1,5 @@
-require File.expand_path("../to_lang/connector", __FILE__)
-require File.expand_path("../to_lang/string_methods", __FILE__)
+require "to_lang/connector"
+require "to_lang/string_methods"
 
 # {ToLang} is a Ruby library that adds language translation methods to strings, backed by the Google Translate API.
 #
