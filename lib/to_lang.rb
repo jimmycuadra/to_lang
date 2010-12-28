@@ -23,51 +23,8 @@ module ToLang
     def start(key)
       return false if defined?(@connector) && !@connector.nil?
       @connector = ToLang::Connector.new(key)
-      add_translation_methods
+      String.send(:include, StringMethods)
       true
-    end
-
-    private
-
-    # Includes ToLang::StringMethods in String and adds dynamic methods
-    # by overriding @method_missing@ and @respond_to?@.
-    #
-    def add_translation_methods
-      String.class_eval do
-        include StringMethods
-
-        def method_missing(method, *args, &block)
-          if method.to_s =~ /^to_(.*)_from_(.*)$/ && CODEMAP[$1] && CODEMAP[$2]
-            new_method_name = "to_#{$1}_from_#{$2}".to_sym
-
-            self.class.send(:define_method, new_method_name, Proc.new {
-              translate(CODEMAP[$1], :from => CODEMAP[$2])
-            })
-
-            send new_method_name
-          elsif method.to_s =~ /^to_(.*)$/ && CODEMAP[$1]
-            new_method_name = "to_#{$1}".to_sym
-
-            self.class.send(:define_method, new_method_name, Proc.new {
-              translate(CODEMAP[$1])
-            })
-
-            send new_method_name
-          else
-            super
-          end
-        end
-
-        def respond_to?(method, include_private = false)
-          if method.to_s =~ /^to_(.*)_from_(.*)$/ && CODEMAP[$1] && CODEMAP[$2]
-            true
-          elsif method.to_s =~ /^to_(.*)$/ && CODEMAP[$1]
-            true
-          else
-            super
-          end
-        end
-      end
     end
   end
 end
