@@ -18,7 +18,7 @@ module ToLang
     #
     # @param [String] key A Google Translate API key.
     #
-    # @return [Boolean] True if initialization succeeded, false if this method has already been called successfully.
+    # @return [Class, Boolean] @String@ if initialization succeeded, @false@ if this method has already been called successfully.
     #
     def start(key)
       return false if defined?(@connector) && !@connector.nil?
