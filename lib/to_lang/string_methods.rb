@@ -1,4 +1,4 @@
-require File.expand_path("../codemap", __FILE__)
+require "to_lang/codemap"
 
 module ToLang
   # The methods {ToLang} will mix into the String class when initialized.
