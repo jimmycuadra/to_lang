@@ -18,32 +18,37 @@ h2. Examples
 
 Load and initialize *to_lang*:
 
-bq. require 'to_lang'
+<pre><code>require 'to_lang'
 ToLang.start('YOUR_GOOGLE_TRANSLATE_API_KEY')
+</code></pre>
 
 Translate some text to Spanish:
 
-bq. "Very cool gem!".to_spanish
+<pre><code>"Very cool gem!".to_spanish
 => "Muy fresco joya!"
+</code></pre>
 
 A case where the source language is ambiguous:
 
-bq. "a pie".to_spanish
+<pre><code>"a pie".to_spanish
 => "a pie"
 "a pie".to_spanish_from_english
 => "un pastel"
+</code></pre>
 
 Or equivalently:
 
-bq. "a pie".from_english_to_spanish
+<pre><code>"a pie".from_english_to_spanish
 => "un pastel"
+</code></pre>
 
 Using @String#translate@ directly:
 
-bq. "hello world".translate('es')
+<pre><code>"hello world".translate('es')
 => "hola mundo"
 "a pie".translate('es', :from => 'en')
 => "un pastel"
+</code></pre>
 
 h2. Supported Languages
 
