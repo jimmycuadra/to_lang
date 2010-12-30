@@ -29,7 +29,7 @@ module ToLang
     # @param [Hash] options A hash of options.
     # @option options [String] :from The language code for the language of @q@.
     #
-    # @raise [RuntimeError] Raises an error for any errors returned by Google Translate.
+    # @raise [RuntimeError] Raises an exception for any errors returned by Google Translate.
     # @return [String] The translated string.
     #
     def request(q, target, options = {})

@@ -38,6 +38,18 @@ module ToLang
         else
           original_method_missing(method, *args, &block)
         end
+      when /^from_(.*)_to_(.*)$/
+        if CODEMAP[$1] && CODEMAP[$2]
+          new_method_name = "from_#{$1}_to_#{$2}".to_sym
+
+          self.class.send(:define_method, new_method_name) do
+            translate(CODEMAP[$2], :from => CODEMAP[$1])
+          end
+
+          return send(new_method_name)
+        else
+          original_method_missing(method, *args, &block)
+        end
       when /^to_(.*)$/
         if CODEMAP[$1]
           new_method_name = "to_#{$1}".to_sym
@@ -65,6 +77,8 @@ module ToLang
     def respond_to?(method, include_private = false)
       case method.to_s
       when /^to_(.*)_from_(.*)$/
+        return true if CODEMAP[$1] && CODEMAP[$2]
+      when /^from_(.*)_to_(.*)$/
         return true if CODEMAP[$1] && CODEMAP[$2]
       when /^to_(.*)$/
         return true if CODEMAP[$1]

@@ -19,11 +19,15 @@ describe "A ToLang-enabled string" do
 
   ToLang::CODEMAP.each do |language, code|
     it "will respond_to :to_#{language}" do
-      "hello_world".should respond_to "to_#{language}"
+      "hello world".should respond_to "to_#{language}"
     end
 
     it "will respond to :to_#{language}_from_english" do
-      "hello_world".should respond_to "to_#{language}_from_english"
+      "hello world".should respond_to "to_#{language}_from_english"
+    end
+
+    it "will respond to :from_english_to_#{language}" do
+      "hello world".should respond_to "from_english_to_#{language}"
     end
 
     it "translates to #{language} when sent :to_#{language}" do
@@ -36,6 +40,12 @@ describe "A ToLang-enabled string" do
       ToLang.connector.stub(:request)
       ToLang.connector.should_receive(:request).with("hello world", code, :from => 'en')
       "hello world".send("to_#{language}_from_english")
+    end
+
+    it "translates to #{language} from english went sent :from_english_to_#{language}" do
+      ToLang.connector.stub(:request)
+      ToLang.connector.should_receive(:request).with("hello world", code, :from => 'en')
+      "hello world".send("from_english_to_#{language}")
     end
   end
 
@@ -60,6 +70,10 @@ describe "A ToLang-enabled string" do
 
   it "calls the original :method_missing if there is a bad language match in the second form" do
     expect { "hello world".to_foo_from_bar }.to raise_error(NoMethodError)
+  end
+
+  it "calls the original :method_missing if there is a bad language match in the reversed second form" do
+    expect { "hello world".from_bar_to_foo }.to raise_error(NoMethodError)
   end
 
   it "calls the original :method_missing if the method does not match either form" do
