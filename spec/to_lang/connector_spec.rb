@@ -9,7 +9,7 @@ describe ToLang::Connector do
     @connector.key.should_not be_nil
   end
 
-  context "when sent :request" do
+  describe "#request" do
     def stub_response(parsed_response)
       mock_response = mock('HTTParty::Response', :parsed_response => parsed_response)
       HTTParty.stub(:get).and_return(mock_response)

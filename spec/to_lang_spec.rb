@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ToLang do
-  context "when sent :start" do
+  describe ".start" do
     before :all do
       ToLang.start('apikey')
     end
