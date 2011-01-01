@@ -70,5 +70,13 @@ describe ToLang::Connector do
         @connector.request("hello world", "es", :from => "en", :debug => :response).should == expected_response
       end
     end
+
+    context "when debugging the request and the response" do
+      it "returns a hash with the request URL and the full parsed response" do
+        expected_response = stub_good_response("hola mundo")
+        output = @connector.request("hello world", "es", :from => "en", :debug => :all)
+        output.should == { :request => "https://www.googleapis.com/language/translate/v2?key=apikey&q=hello+world&target=es&source=en", :response => expected_response }
+      end
+    end
   end
 end
