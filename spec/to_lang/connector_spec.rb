@@ -18,11 +18,13 @@ describe ToLang::Connector do
     def stub_good_response(translated_text)
       parsed_response = { "data" => { "translations" => [ { "translatedText" => translated_text } ] } }
       stub_response(parsed_response)
+      parsed_response
     end
 
     def stub_bad_response(error_message)
       parsed_response = { "error" => { "message" => error_message } }
       stub_response(parsed_response)
+      parsed_response
     end
 
     context "with only a target language" do
@@ -59,6 +61,13 @@ describe ToLang::Connector do
       it "returns the request URL" do
         HTTParty.stub(:get)
         @connector.request("hello world", "es", :from => "en", :debug => :request).should == "https://www.googleapis.com/language/translate/v2?key=apikey&q=hello+world&target=es&source=en"
+      end
+    end
+
+    context "when debugging the response" do
+      it "returns the full parsed response" do
+        expected_response = stub_good_response("hola mundo")
+        @connector.request("hello world", "es", :from => "en", :debug => :response).should == expected_response
       end
     end
   end
