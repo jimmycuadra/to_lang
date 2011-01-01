@@ -37,7 +37,7 @@ module ToLang
       request = request_url(q, target, options)
       return request if options[:debug] == :request
 
-      response = HTTParty.get request_url(q, target, options)
+      response = HTTParty.get(request)
       return { :request => request, :response => response.parsed_response } if options[:debug] == :all
       return response.parsed_response if options[:debug] == :response
 
