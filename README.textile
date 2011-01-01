@@ -50,6 +50,23 @@ Using @String#translate@ directly:
 => "un pastel"
 </code></pre>
 
+h2. Debugging
+
+@String#translate@ also has the advantage of allowing you to get debug output for a translation. @String#translate@ accepts a @:debug@ option with three possible values: @:request@, @:response@, and @:all@. @:request@ will cause the method to return the generated URL for the Google Translate API call. @:response@ will cause the method to return the full response from the API call as a hash. @:all@ will cause the method to return a hash which contains both the generated request URL and the full response.
+
+<pre><code>"hello world".translate('es', :debug => :response)
+=> https://www.googleapis.com/language/translate/v2?key=my_key&q=hello+world&target=es
+</code></pre>
+
+<pre><code>"hello world".translate('es', :debug => :response)
+=> {"data"=>{"translations"=>[{"translatedText"=>"hola mundo"}]}}
+</code></pre>
+
+<pre><code>"hello world".translate('es', :debug => :all)
+=> {:request=>"https://www.googleapis.com/language/translate/v2?key=my_key&q=hello+world&target=es",
+   :response=>{"data"=>{"translations"=>[{"translatedText"=>"hola mundo"}]}}}
+</code></pre>
+
 h2. Supported Languages
 
 *to_lang* adds the following methods to strings. Each of these methods can be called with an explicit source language by appending @_from_source_language@ or prepending @from_source_language_@ to the method name.
@@ -118,4 +135,4 @@ h2. Roadmap
 
 h2. Feedback and Contributions
 
-Feedback is greatly appreciated, as are patch contributions. Feel free to fork the project and send me a pull request, or just add an issue to the issue tracker.
+Feedback is greatly appreciated. If you have any problems with *to_lang*, please open a new issue. Please include debugging output from using @String#translate@'s @:debug@ option, if relevant to your issue. If you'd like to fix bugs, add features, or improve the library in general, feel free to fork the project and send me a pull request with your changes.
