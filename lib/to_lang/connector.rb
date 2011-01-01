@@ -28,9 +28,10 @@ module ToLang
     # @param [String] target The language code for the language to translate to.
     # @param [Hash] options A hash of options.
     # @option options [String] :from The language code for the language of @q@.
+    # @option options [Symbol] :debug Debug output to return instead of the translated string. Must be one of @:request@, @:response@, or @:all@.
     #
     # @raise [RuntimeError] Raises an exception for any errors returned by Google Translate.
-    # @return [String] The translated string.
+    # @return [String, Hash] The translated string or debugging output, as requested.
     #
     def request(q, target, options = {})
       request = request_url(q, target, options)
