@@ -33,6 +33,7 @@ module ToLang
     # @return [String] The translated string.
     #
     def request(q, target, options = {})
+      return request_url(q, target, options) if options[:debug] == :request
       response = HTTParty.get request_url(q, target, options)
       raise response.parsed_response["error"]["message"] if response.parsed_response["error"] && response.parsed_response["error"]["message"]
       CGI.unescapeHTML(response.parsed_response["data"]["translations"][0]["translatedText"])

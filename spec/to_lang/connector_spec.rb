@@ -54,5 +54,12 @@ describe ToLang::Connector do
         expect { @connector.request("a pie", "en", :from => "en") }.to raise_error(RuntimeError, "Bad language pair: en|en")
       end
     end
+
+    context "when debugging the request" do
+      it "returns the request URL" do
+        HTTParty.stub(:get)
+        @connector.request("hello world", "es", :from => "en", :debug => :request).should == "https://www.googleapis.com/language/translate/v2?key=apikey&q=hello+world&target=es&source=en"
+      end
+    end
   end
 end
