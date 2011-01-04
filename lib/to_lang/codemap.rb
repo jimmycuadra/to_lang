@@ -5,7 +5,6 @@ module ToLang
     'afrikaans' => 'af',
     'albanian' => 'sq',
     'arabic' => 'ar',
-    'basque' => 'eu',
     'belarusian' => 'be',
     'bulgarian' => 'bg',
     'catalan' => 'ca',

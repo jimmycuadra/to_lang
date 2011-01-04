@@ -74,7 +74,6 @@ h2. Supported Languages
 * to_afrikaans
 * to_albanian
 * to_arabic
-* to_basque
 * to_belarusian
 * to_bulgarian
 * to_catalan
