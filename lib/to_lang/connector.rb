@@ -5,9 +5,15 @@ module ToLang
   # Responsible for making the actual HTTP request to the Google Translate API.
   #
   class Connector
+    include HTTParty
+
     # The base URL for all requests to the Google Translate API.
     #
     API_URL = "https://www.googleapis.com/language/translate/v2"
+
+    # The maximum number of characters the string to translate can be.
+    #
+    MAX_STRING_LENGTH = 5000
 
     # The Google Translate API key to use when making API calls.
     #
@@ -20,6 +26,7 @@ module ToLang
     # @return [ToLang::Connector] The new {ToLang::Connector} instance.
     def initialize(key)
       @key = key
+      self.class.headers "X-HTTP-Method-Override" => "GET"
     end
 
     # Makes a request to the Google Translate API.
@@ -30,37 +37,22 @@ module ToLang
     # @option options [String] :from The language code for the language of @q@.
     # @option options [Symbol] :debug Debug output to return instead of the translated string. Must be one of @:request@, @:response@, or @:all@.
     #
-    # @raise [RuntimeError] Raises an exception for any errors returned by Google Translate.
+    # @raise [RuntimeError] If the string is too long or if Google Translate returns any errors.
     # @return [String, Hash] The translated string or debugging output, as requested.
     #
     def request(q, target, options = {})
-      request = request_url(q, target, options)
-      return request if options[:debug] == :request
+      raise "The string to translate cannot be greater than #{MAX_STRING_LENGTH} characters" if q.size > MAX_STRING_LENGTH
 
-      response = HTTParty.get(request)
-      return { :request => request, :response => response.parsed_response } if options[:debug] == :all
+      request_hash = { :key => @key, :q => q, :target => target }
+      request_hash[:source] = options[:from] if options[:from]
+      return request_hash if options[:debug] == :request
+
+      response = self.class.post(API_URL, { :body => request_hash })
       return response.parsed_response if options[:debug] == :response
+      return { :request => request_hash, :response => response.parsed_response } if options[:debug] == :all
 
       raise response.parsed_response["error"]["message"] if response.parsed_response["error"] && response.parsed_response["error"]["message"]
       CGI.unescapeHTML(response.parsed_response["data"]["translations"][0]["translatedText"])
-    end
-
-    private
-
-    # Constructs the URL that will be used by {#request}.
-    #
-    # @param [String] q The string to translate.
-    # @param [String] target The language code for the language to translate to.
-    # @param [Hash] options A hash of options.
-    # @option options [String] :from The language code for the language of @q@.
-    #
-    # @return [String] The URL to request for the API call.
-    #
-    def request_url(q, target, options)
-      source = options[:from]
-      url = "#{API_URL}?key=#{@key}&q=#{CGI.escape(q)}&target=#{target}"
-      url += "&source=#{source}" if source
-      url
     end
   end
 end

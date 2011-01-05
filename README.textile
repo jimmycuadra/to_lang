@@ -14,6 +14,8 @@ Google Translate attempts to detect the source language, but you can specify it 
 
 The dynamic methods are simply syntactic sugar for @String#translate@, which you can use directly as well.
 
+Google Translate currently has a limit of 5,000 characters on input, so any strings longer than that will raise an exception.
+
 h2. Examples
 
 Load and initialize *to_lang*:

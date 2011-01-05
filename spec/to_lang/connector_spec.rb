@@ -12,7 +12,7 @@ describe ToLang::Connector do
   describe "#request" do
     def stub_response(parsed_response)
       mock_response = mock('HTTParty::Response', :parsed_response => parsed_response)
-      HTTParty.stub(:get).and_return(mock_response)
+      ToLang::Connector.stub(:post).and_return(mock_response)
     end
 
     def stub_good_response(translated_text)
@@ -59,8 +59,7 @@ describe ToLang::Connector do
 
     context "when debugging the request" do
       it "returns the request URL" do
-        HTTParty.stub(:get)
-        @connector.request("hello world", "es", :from => "en", :debug => :request).should == "https://www.googleapis.com/language/translate/v2?key=apikey&q=hello+world&target=es&source=en"
+        @connector.request("hello world", "es", :from => "en", :debug => :request).should == { :key=> "apikey", :q => "hello world", :target => "es", :source => "en" }
       end
     end
 
@@ -75,8 +74,13 @@ describe ToLang::Connector do
       it "returns a hash with the request URL and the full parsed response" do
         expected_response = stub_good_response("hola mundo")
         output = @connector.request("hello world", "es", :from => "en", :debug => :all)
-        output.should == { :request => "https://www.googleapis.com/language/translate/v2?key=apikey&q=hello+world&target=es&source=en", :response => expected_response }
+        output.should == { :request => { :key=> "apikey", :q => "hello world", :target => "es", :source => "en" }, :response => expected_response }
       end
+    end
+
+    it "raises an exception if the encoding string is longer than the maximum allowed characters" do
+      str = 'x' * (ToLang::Connector::MAX_STRING_LENGTH + 1)
+      expect { @connector.request(str, "en", :from => "ja")}.to raise_error(RuntimeError, "The string to translate cannot be greater than #{ToLang::Connector::MAX_STRING_LENGTH} characters")
     end
   end
 end
