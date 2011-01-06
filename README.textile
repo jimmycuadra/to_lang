@@ -54,19 +54,20 @@ Using @String#translate@ directly:
 
 h2. Debugging
 
-@String#translate@ also has the advantage of allowing you to get debug output for a translation. @String#translate@ accepts a @:debug@ option with three possible values: @:request@, @:response@, and @:all@. @:request@ will cause the method to return the generated URL for the Google Translate API call. @:response@ will cause the method to return the full response from the API call as a hash. @:all@ will cause the method to return a hash which contains both the generated request URL and the full response.
+@String#translate@ also has the advantage of allowing you to get debug output for a translation. @String#translate@ accepts a @:debug@ option with three possible values: @:request@, @:response@, and @:all@. @:request@ will cause the method to return a hash of the parameters that will be sent to the Google Translate API. @:response@ will cause the method to return the full response from the API call as a hash. @:all@ will cause the method to return a hash which contains both the request hash and the full response.
 
-<pre><code>"hello world".translate('es', :debug => :response)
-=> https://www.googleapis.com/language/translate/v2?key=my_key&q=hello+world&target=es
+<pre><code>"hello world".translate('es', :debug => :request)
+=> {:key=>"my_key", :q=>"hello world", :target=>"es"}
 </code></pre>
 
 <pre><code>"hello world".translate('es', :debug => :response)
-=> {"data"=>{"translations"=>[{"translatedText"=>"hola mundo"}]}}
+=> {"data"=>{"translations"=>[{"translatedText"=>"hola mundo", "detectedSourceLanguage"=>"en"}]}}
 </code></pre>
 
 <pre><code>"hello world".translate('es', :debug => :all)
-=> {:request=>"https://www.googleapis.com/language/translate/v2?key=my_key&q=hello+world&target=es",
-   :response=>{"data"=>{"translations"=>[{"translatedText"=>"hola mundo"}]}}}
+=> {:request=>{:key=>"my_key", :q=>"hello world", :target=>"es"},
+   :response=>{"data"=>{"translations"=>[{"translatedText"=>"hola mundo",
+   "detectedSourceLanguage"=>"en"}]}}}
 </code></pre>
 
 h2. Supported Languages
