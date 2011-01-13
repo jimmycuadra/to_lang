@@ -1,6 +1,8 @@
 require "to_lang/connector"
 require "to_lang/string_methods"
 
+$KCODE = 'u' unless RUBY_VERSION >= "1.9"
+
 # {ToLang} is a Ruby library that adds language translation methods to strings, backed by the Google Translate API.
 #
 # @author Jimmy Cuadra

@@ -131,10 +131,6 @@ h2. Documentation
 
 API documentation can be found at "rubydoc.info":http://rubydoc.info/github/jimmycuadra/to_lang/master/frames.
 
-h2. Roadmap
-
-* Investigate Unicode support for Ruby 1.8. *to_lang* has only been tested with 1.9.
-
 h2. Feedback and Contributions
 
 Feedback is greatly appreciated. If you have any problems with *to_lang*, please open a new issue. Make sure you are using the latest version of the gem, or HEAD if you've cloned the Git repository directly. Please include debugging output from using @String#translate@'s @:debug@ option, if relevant to your issue. If you'd like to fix bugs, add features, or improve the library in general, feel free to fork the project and send me a pull request with your changes.
