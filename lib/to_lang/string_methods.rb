@@ -64,9 +64,7 @@ module ToLang
     #
     def respond_to?(method, include_private = false)
       case method.to_s
-      when /^to_(.*)_from_(.*)$/
-        return true if CODEMAP[$1] && CODEMAP[$2]
-      when /^from_(.*)_to_(.*)$/
+      when /^to_(.*)_from_(.*)$/, /^from_(.*)_to_(.*)$/
         return true if CODEMAP[$1] && CODEMAP[$2]
       when /^to_(.*)$/
         return true if CODEMAP[$1]
