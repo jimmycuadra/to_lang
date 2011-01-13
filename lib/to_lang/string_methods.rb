@@ -28,42 +28,30 @@ module ToLang
       case method.to_s
       when /^to_(.*)_from_(.*)$/
         if CODEMAP[$1] && CODEMAP[$2]
-          new_method_name = "to_#{$1}_from_#{$2}".to_sym
-
-          self.class.send(:define_method, new_method_name) do
+          define_and_call_method("to_#{$1}_from_#{$2}".to_sym) do
             translate(CODEMAP[$1], :from => CODEMAP[$2])
           end
-
-          return send(new_method_name)
         else
-          original_method_missing(method, *args, &block)
+          original_method_missing(method, *args, block)
         end
       when /^from_(.*)_to_(.*)$/
         if CODEMAP[$1] && CODEMAP[$2]
-          new_method_name = "from_#{$1}_to_#{$2}".to_sym
-
-          self.class.send(:define_method, new_method_name) do
+          define_and_call_method("from_#{$1}_to_#{$2}".to_sym) do
             translate(CODEMAP[$2], :from => CODEMAP[$1])
           end
-
-          return send(new_method_name)
         else
-          original_method_missing(method, *args, &block)
+          original_method_missing(method, *args, block)
         end
       when /^to_(.*)$/
         if CODEMAP[$1]
-          new_method_name = "to_#{$1}".to_sym
-
-          self.class.send(:define_method, new_method_name) do
+          define_and_call_method("to_#{$1}".to_sym) do
             translate(CODEMAP[$1])
           end
-
-          return send(new_method_name)
         else
-          original_method_missing(method, *args, &block)
+          original_method_missing(method, *args, block)
         end
       else
-        original_method_missing(method, *args, &block)
+        original_method_missing(method, *args, block)
       end
     end
 
@@ -85,6 +73,17 @@ module ToLang
       end
 
       original_respond_to?(method, include_private)
+    end
+
+    private
+
+    # Defines a method dynamically and then calls it.
+    #
+    # @private
+    #
+    def define_and_call_method(method, &block)
+      self.class.send(:define_method, method, block)
+      send method
     end
   end
 end
