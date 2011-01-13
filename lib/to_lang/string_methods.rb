@@ -28,7 +28,7 @@ module ToLang
       case method.to_s
       when /^to_(.*)_from_(.*)$/
         if CODEMAP[$1] && CODEMAP[$2]
-          define_and_call_method("to_#{$1}_from_#{$2}".to_sym) do
+          define_and_call_method(method) do
             translate(CODEMAP[$1], :from => CODEMAP[$2])
           end
         else
@@ -36,7 +36,7 @@ module ToLang
         end
       when /^from_(.*)_to_(.*)$/
         if CODEMAP[$1] && CODEMAP[$2]
-          define_and_call_method("from_#{$1}_to_#{$2}".to_sym) do
+          define_and_call_method(method) do
             translate(CODEMAP[$2], :from => CODEMAP[$1])
           end
         else
@@ -44,7 +44,7 @@ module ToLang
         end
       when /^to_(.*)$/
         if CODEMAP[$1]
-          define_and_call_method("to_#{$1}".to_sym) do
+          define_and_call_method(method) do
             translate(CODEMAP[$1])
           end
         else
