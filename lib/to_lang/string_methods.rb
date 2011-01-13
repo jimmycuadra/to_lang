@@ -30,22 +30,22 @@ module ToLang
         if CODEMAP[$1] && CODEMAP[$2]
           define_and_call_method(method) { translate(CODEMAP[$1], :from => CODEMAP[$2]) }
         else
-          original_method_missing(method, *args, block)
+          original_method_missing(method, *args, &block)
         end
       when /^from_(.*)_to_(.*)$/
         if CODEMAP[$1] && CODEMAP[$2]
           define_and_call_method(method) { translate(CODEMAP[$2], :from => CODEMAP[$1]) }
         else
-          original_method_missing(method, *args, block)
+          original_method_missing(method, *args, &block)
         end
       when /^to_(.*)$/
         if CODEMAP[$1]
           define_and_call_method(method) { translate(CODEMAP[$1]) }
         else
-          original_method_missing(method, *args, block)
+          original_method_missing(method, *args, &block)
         end
       else
-        original_method_missing(method, *args, block)
+        original_method_missing(method, *args, &block)
       end
     end
 
