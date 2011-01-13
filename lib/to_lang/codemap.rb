@@ -1,5 +1,5 @@
 module ToLang
-  # A list of all the languages {ToLang} supports and the language code each maps to. Strings will gain @to_language@ and @to_language_from_language@ methods for any @language@ in this list.
+  # A list of all the languages {ToLang} supports and the language code each maps to. Strings will gain @to_language@, @to_language_from_language@, and @from_language_to_language@ methods for any @language@ in this list.
   #
   CODEMAP = {
     'afrikaans' => 'af',
