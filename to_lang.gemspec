@@ -25,4 +25,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "RedCloth", "~> 4.2"
   s.add_development_dependency "guard-rspec", "~> 0.1.9"
   s.add_development_dependency "rb-fsevent", "~> 0.3.10" if RUBY_PLATFORM[/darwin/]
+  s.add_development_dependency "growl", "~> 1.0.3" if RUBY_PLATFORM[/darwin/]
 end
