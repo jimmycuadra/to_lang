@@ -1,5 +1,5 @@
 require "to_lang/connector"
-require "to_lang/string_methods"
+require "to_lang/translatable"
 
 $KCODE = 'u' unless RUBY_VERSION >= "1.9"
 
@@ -24,8 +24,8 @@ module ToLang
     #
     def start(key)
       return false if defined?(@connector) && !@connector.nil?
-      @connector = ToLang::Connector.new(key)
-      String.send(:include, StringMethods)
+      @connector = Connector.new key
+      String.send :include, Translatable
     end
   end
 end

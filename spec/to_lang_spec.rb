@@ -14,8 +14,8 @@ describe ToLang do
       ToLang.connector.should be_an_instance_of ToLang::Connector
     end
 
-    it "mixes StringMethods into String" do
-      String.should include ToLang::StringMethods
+    it "mixes Translatable into String" do
+      String.should include ToLang::Translatable
     end
   end
 end

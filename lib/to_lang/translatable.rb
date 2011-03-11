@@ -1,9 +1,9 @@
 require "to_lang/codemap"
 
 module ToLang
-  # The methods {ToLang} will mix into the String class when initialized.
+  # {ToLang}'s core translation methods.
   #
-  module StringMethods
+  module Translatable
     # Translates a string to another language. All the magic methods use this internally. It, in turn, forwards
     # everything on to {ToLang::Connector#request}
     #
