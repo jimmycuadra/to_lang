@@ -10,6 +10,7 @@ describe ToLang::Connector do
   end
 
   describe "#request" do
+    # helper methods
     def stub_response(parsed_response)
       mock_response = mock('HTTParty::Response', :parsed_response => parsed_response)
       ToLang::Connector.stub(:post).and_return(mock_response)
@@ -27,60 +28,71 @@ describe ToLang::Connector do
       parsed_response
     end
 
-    context "with only a target language" do
-      it "returns the translated string" do
-        stub_good_response "hola mundo"
-        @connector.request("hello world", "es").should == "hola mundo"
-      end
+    def stub_good_array_response(translated_texts)
+      parsed_response = { "data" => { "translations" => [] } }
+      translated_texts.each { |text| parsed_response["data"]["translations"].push({ "translatedText" => text }) }
+      stub_response(parsed_response)
+      parsed_response
     end
 
-    context "with an ambiguous source language" do
-      context "and no source language specified" do
-        it "returns the same string" do
-          stub_good_response "a pie"
-          @connector.request("a pie", "es").should == "a pie"
-        end
-      end
-
-      context "and a source language specified" do
+    describe "A single string" do
+      context "with only a target language" do
         it "returns the translated string" do
-          stub_good_response "un pastel"
-          @connector.request("a pie", "es", :from => "en").should == "un pastel"
+          stub_good_response "hola mundo"
+          @connector.request("hello world", "es").should == "hola mundo"
+        end
+      end
+
+      context "with an ambiguous source language" do
+        context "and no source language specified" do
+          it "returns the same string" do
+            stub_good_response "a pie"
+            @connector.request("a pie", "es").should == "a pie"
+          end
+        end
+
+        context "and a source language specified" do
+          it "returns the translated string" do
+            stub_good_response "un pastel"
+            @connector.request("a pie", "es", :from => "en").should == "un pastel"
+          end
+        end
+      end
+
+      context "with a bad language pair" do
+        it "raises an exception" do
+          stub_bad_response "Bad language pair: en|en"
+          expect { @connector.request("a pie", "en", :from => "en") }.to raise_error(RuntimeError, "Bad language pair: en|en")
+        end
+      end
+
+      context "when debugging the request" do
+        it "returns the request URL" do
+          @connector.request("hello world", "es", :from => "en", :debug => :request).should == { :key=> "apikey", :q => "hello world", :target => "es", :source => "en" }
+        end
+      end
+
+      context "when debugging the response" do
+        it "returns the full parsed response" do
+          expected_response = stub_good_response("hola mundo")
+          @connector.request("hello world", "es", :from => "en", :debug => :response).should == expected_response
+        end
+      end
+
+      context "when debugging the request and the response" do
+        it "returns a hash with the request URL and the full parsed response" do
+          expected_response = stub_good_response("hola mundo")
+          output = @connector.request("hello world", "es", :from => "en", :debug => :all)
+          output.should == { :request => { :key=> "apikey", :q => "hello world", :target => "es", :source => "en" }, :response => expected_response }
         end
       end
     end
 
-    context "with a bad language pair" do
-      it "raises an exception" do
-        stub_bad_response "Bad language pair: en|en"
-        expect { @connector.request("a pie", "en", :from => "en") }.to raise_error(RuntimeError, "Bad language pair: en|en")
+    describe "An array of strings" do
+      it "returns an array of translated strings" do
+        stub_good_array_response ["hola", "mundo"]
+        @connector.request(["hello", "world"], "es").should == ["hola", "mundo"]
       end
-    end
-
-    context "when debugging the request" do
-      it "returns the request URL" do
-        @connector.request("hello world", "es", :from => "en", :debug => :request).should == { :key=> "apikey", :q => "hello world", :target => "es", :source => "en" }
-      end
-    end
-
-    context "when debugging the response" do
-      it "returns the full parsed response" do
-        expected_response = stub_good_response("hola mundo")
-        @connector.request("hello world", "es", :from => "en", :debug => :response).should == expected_response
-      end
-    end
-
-    context "when debugging the request and the response" do
-      it "returns a hash with the request URL and the full parsed response" do
-        expected_response = stub_good_response("hola mundo")
-        output = @connector.request("hello world", "es", :from => "en", :debug => :all)
-        output.should == { :request => { :key=> "apikey", :q => "hello world", :target => "es", :source => "en" }, :response => expected_response }
-      end
-    end
-
-    it "raises an exception if the encoding string is longer than the maximum allowed characters" do
-      str = 'x' * (ToLang::Connector::MAX_STRING_LENGTH + 1)
-      expect { @connector.request(str, "en", :from => "ja")}.to raise_error(RuntimeError, "The string to translate cannot be greater than #{ToLang::Connector::MAX_STRING_LENGTH} characters")
     end
   end
 end
