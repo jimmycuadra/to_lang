@@ -17,5 +17,9 @@ describe ToLang do
     it "mixes Translatable into String" do
       String.should include ToLang::Translatable
     end
+
+    it "mixes Translatable into Array" do
+      Array.should include ToLang::Translatable
+    end
   end
 end
