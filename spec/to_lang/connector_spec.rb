@@ -47,7 +47,7 @@ describe ToLang::Connector do
       parsed_response
     end
 
-    describe "A single string" do
+    context "given a single string" do
       context "with only a target language" do
         it "returns the translated string" do
           stub_good_response "hola mundo"
@@ -100,7 +100,7 @@ describe ToLang::Connector do
       end
     end
 
-    describe "An array of strings" do
+    context "given an array of strings" do
       it "returns an array of translated strings" do
         stub_good_array_response ["hola", "mundo"]
         @connector.request(["hello", "world"], "es").should == ["hola", "mundo"]
