@@ -1,6 +1,6 @@
 h1. to_lang
 
-*to_lang* is a Ruby library that adds language translation methods to strings, backed by the Google Translate API.
+*to_lang* is a Ruby library that adds language translation methods to strings and arrays, backed by the Google Translate API.
 
 h2. Installation
 
@@ -10,13 +10,11 @@ h2. Usage
 
 To use *to_lang*, require the library, then call @ToLang.start@ with your Google Translate API key. At this point you will have access to all the new translation methods, which take the form @to_language@, where "language" is the language you wish to translate to.
 
-Google Translate attempts to detect the source language, but you can specify it explicitly by calling methods in the form @to_target_language_from_source_language@, where "target language" is the language you are translating to and "source_language" is the language you are starting with. An inverted form with equivalent functionality, @from_source_language_to_target_language@ is also available. These methods are generated dynamically and will not appear in a call to @String.new.methods@ until they have been called once. Strings will, however, @respond_to?@ these methods prior to their dynamic definition.
+Google Translate attempts to detect the source language, but you can specify it explicitly by calling methods in the form @to_target_language_from_source_language@, where "target language" is the language you are translating to and "source_language" is the language you are starting with. An inverted form with equivalent functionality, @from_source_language_to_target_language@ is also available. These methods are generated dynamically and will not appear in a calls to @String.instance_methods@ or @Array.instance_methods@ until they have been called once. Strings and arrays will, however, @respond_to?@ these methods prior to their dynamic definition.
 
-The dynamic methods are simply syntactic sugar for @String#translate@, which you can use directly as well.
+The dynamic methods are simply syntactic sugar for @String#translate@ and @Array#translate@, which you can use directly as well.
 
-Google Translate currently has a limit of 5,000 characters on input, so any strings longer than that will raise an exception.
-
-h2. Examples
+h2. String Examples
 
 Load and initialize *to_lang*:
 
@@ -52,9 +50,17 @@ Using @String#translate@ directly:
 => "un pastel"
 </code></pre>
 
+h2. Array Examples
+
+Arrays can be used to translate a batch of strings in a single method call and a single HTTP request. The exact same methods shown above work for arrays as well. For example, to translate an array of strings to Spanish:
+
+<pre><code>["One", "Two", "Three"].to_spanish
+=> ["Uno", "Dos", "Tres"]
+</code></pre>
+
 h2. Debugging
 
-@String#translate@ also has the advantage of allowing you to get debug output for a translation. @String#translate@ accepts a @:debug@ option with three possible values: @:request@, @:response@, and @:all@. @:request@ will cause the method to return a hash of the parameters that will be sent to the Google Translate API. @:response@ will cause the method to return the full response from the API call as a hash. @:all@ will cause the method to return a hash which contains both the request hash and the full response.
+@translate@ also has the advantage of allowing you to get debug output for a translation. @translate@ accepts a @:debug@ option with three possible values: @:request@, @:response@, and @:all@. @:request@ will cause the method to return a hash of the parameters that will be sent to the Google Translate API. @:response@ will cause the method to return the full response from the API call as a hash. @:all@ will cause the method to return a hash which contains both the request hash and the full response.
 
 <pre><code>"hello world".translate('es', :debug => :request)
 => {:key=>"my_key", :q=>"hello world", :target=>"es"}
@@ -72,7 +78,7 @@ h2. Debugging
 
 h2. Supported Languages
 
-*to_lang* adds the following methods to strings. Each of these methods can be called with an explicit source language by appending @_from_source_language@ or prepending @from_source_language_@ to the method name.
+*to_lang* adds the following methods to strings and arrays. Each of these methods can be called with an explicit source language by appending @_from_source_language@ or prepending @from_source_language_@ to the method name.
 
 * to_afrikaans
 * to_albanian
@@ -133,4 +139,4 @@ API documentation can be found at "rubydoc.info":http://rubydoc.info/github/jimm
 
 h2. Feedback and Contributions
 
-Feedback is greatly appreciated. If you have any problems with *to_lang*, please open a new issue. Make sure you are using the latest version of the gem, or HEAD if you've cloned the Git repository directly. Please include debugging output from using @String#translate@'s @:debug@ option, if relevant to your issue. If you'd like to fix bugs, add features, or improve the library in general, feel free to fork the project and send me a pull request with your changes.
+Feedback is greatly appreciated. If you have any problems with *to_lang*, please open a new issue. Make sure you are using the latest version of the gem, or HEAD if you've cloned the Git repository directly. Please include debugging output from using the @:debug@ option of @translate@, if relevant to your issue. If you'd like to fix bugs, add features, or improve the library in general, feel free to fork the project and send me a pull request with your changes.

@@ -4,7 +4,7 @@ module ToLang
   # {ToLang}'s core translation methods.
   #
   module Translatable
-    # Translates a string to another language. All the magic methods use this internally. It, in turn, forwards
+    # Translates a string or array of strings to another language. All the magic methods use this internally. It, in turn, forwards
     # everything on to {ToLang::Connector#request}
     #
     # @param [String] target The language code for the language to translate to.
