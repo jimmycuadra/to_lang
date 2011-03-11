@@ -12,6 +12,21 @@ module ToLang
     #
     API_URL = "https://www.googleapis.com/language/translate/v2"
 
+    # A custom query string normalizer that does not sort arguments. This is necessary to ensure that batch translations
+    # are returned in the same order they appear in the input array.
+    UNSORTED_QUERY_STRING_NORMALIZER = proc do |query|
+      Array(query).map do |key, value|
+        if value.nil?
+          key
+        elsif value.is_a?(Array)
+          value.map {|v| "#{key}=#{URI.encode(v.to_s, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))}"}
+        else
+          {key => value}.to_params
+        end
+      end.flatten.join('&')
+    end
+    query_string_normalizer UNSORTED_QUERY_STRING_NORMALIZER
+
     # The Google Translate API key to use when making API calls.
     #
     # @return [String] The Google Translate API key.

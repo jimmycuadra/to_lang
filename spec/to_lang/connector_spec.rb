@@ -5,6 +5,18 @@ describe ToLang::Connector do
     @connector = ToLang::Connector.new('apikey')
   end
 
+  describe "custom query string normalizer" do
+    it "returns a query string with unsorted parameters" do
+      params = {
+        :key_with_no_value => nil,
+        :key => 'apikey',
+        :target => 'es',
+        :q => ["banana", "apple"]
+      }
+      ToLang::Connector::UNSORTED_QUERY_STRING_NORMALIZER.call(params).should == "key_with_no_value&key=apikey&target=es&q=banana&q=apple"
+    end
+  end
+
   it "stores a key when initialized" do
     @connector.key.should_not be_nil
   end
