@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe String do
+describe "A translatable class" do
   before :all do
     ToLang.start('apikey')
   end
