@@ -6,7 +6,6 @@ module ToLang
   #
   class Connector
     include HTTParty
-    disable_rails_query_string_format
 
     # The base URL for all requests to the Google Translate API.
     #
