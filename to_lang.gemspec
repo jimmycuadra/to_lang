@@ -16,13 +16,13 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_dependency "httparty", "~> 0.6"
-  s.add_development_dependency "bundler", "~> 1.0"
-  s.add_development_dependency "rake", "~> 0.8"
-  s.add_development_dependency "rspec", "~> 2.3"
-  s.add_development_dependency "simplecov", "~> 0.3"
-  s.add_development_dependency "yard", "~> 0.6"
-  s.add_development_dependency "RedCloth", "~> 4.2"
+  s.add_dependency "httparty", "~> 0.7.0"
+  s.add_development_dependency "bundler", "~> 1.0.10"
+  s.add_development_dependency "rake", "~> 0.8.7"
+  s.add_development_dependency "rspec", "~> 2.5.0"
+  s.add_development_dependency "simplecov", "~> 0.4.1"
+  s.add_development_dependency "yard", "~> 0.6.5"
+  s.add_development_dependency "RedCloth", "~> 4.2.7"
   s.add_development_dependency "guard-rspec", "~> 0.2.0"
   s.add_development_dependency "rb-fsevent", "~> 0.4.0" if RUBY_PLATFORM[/darwin/]
   s.add_development_dependency "growl", "~> 1.0.3" if RUBY_PLATFORM[/darwin/]
