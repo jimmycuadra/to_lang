@@ -14,6 +14,8 @@ Google Translate attempts to detect the source language, but you can specify it 
 
 The dynamic methods are simply syntactic sugar for @String#translate@ and @Array#translate@, which you can use directly as well.
 
+*to_lang* also comes with a command line utility for quick translations from the shell.
+
 h2. String Examples
 
 Load and initialize *to_lang*:
@@ -74,6 +76,36 @@ h2. Debugging
 => {:request=>{:key=>"my_key", :q=>"hello world", :target=>"es"},
    :response=>{"data"=>{"translations"=>[{"translatedText"=>"hola mundo",
    "detectedSourceLanguage"=>"en"}]}}}
+</code></pre>
+
+h2. Command Line Interface
+
+The command line utility @to_lang@ has the following interface:
+
+@to_lang [--key API_KEY] [--from SOURCE_LANGUAGE] --to DESTINATION_LANGUAGE STRING [STRING, ...]@
+
+@to_lang@ accepts a space separated list of strings to translate. At least one string is required, as is the @--to@ option, which accepts a language code (e.g. "es"). @to_lang@ will attempt to load a Google Translate API key from the @GOOGLE_TRANSLATE_API_KEY@ environment variable. If one is not available, it must be passed in from the command line with the @--key@ option. For complete usage instructions, invoke the utility with the @--help@ option.
+
+Examples:
+
+A simple translation with the key being passed in directly from the command line:
+
+<pre><code>$ to_lang --key YOUR_GOOGLE_TRANSLATE_API_KEY --to es "hello world"
+hola mundo
+</code></pre>
+
+With the key in an environment variable and multiple strings:
+
+<pre><code>$ to_lang --to es "hello world" "a pie"
+hola mundo
+a pie
+</code></pre>
+
+Specifying the source language:
+
+<pre><code>$ to_lang --from en --to es "hello world" "a pie"
+hola mundo
+un pastel
 </code></pre>
 
 h2. Supported Languages
