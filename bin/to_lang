@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+require "optparse"
+$:.unshift File.expand_path("../../lib", __FILE__)
+require "to_lang/version"
+
+options = {}
+OptionParser.new do |o|
+  o.banner = "Usage: to_lang [--key API_KEY] [--from SOURCE_LANGUAGE] --to DESTINATION_LANGUAGE STRING [STRING, ...]"
+
+  o.on("--key API_KEY", "A Google Translate API key", "(Will attempt to use ENV['GOOGLE_TRANSLATE_API_KEY'] if not supplied)") do |key|
+    options[:key] = key
+  end
+
+  o.on("--from SOURCE", "The source language") do |source|
+    options[:from] = source
+  end
+
+  o.on("--to DESTINATION", "The destination language") do |destination|
+    options[:to] = destination
+  end
+
+  o.on("-v", "--version", "The current version of ToLang") do
+    puts "ToLang v#{ToLang::VERSION}"
+    exit
+  end
+
+  o.on("-h", "--help", "This help screen") do
+    puts o
+    exit
+  end
+end.parse!
+
+options[:key] ||= ENV['GOOGLE_TRANSLATE_API_KEY']
+abort "A Google Translate API key is required" unless options[:key]
+abort "A valid destination language is required" unless options[:to]
+abort "At least one string to translate is required" unless ARGV.size >= 1
+
+require "to_lang"
+ToLang.start(options[:key])
+puts ARGV.translate(options[:to], :from => options[:from])
