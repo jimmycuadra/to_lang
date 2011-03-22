@@ -16,7 +16,7 @@ module ToLang
       private
 
       def parse_options!
-        self.options = Slop.new do
+        self.options = Slop.parse!(args, :help => true) do
           banner "Usage: to_lang [--key API_KEY] [--from SOURCE_LANGUAGE] --to DESTINATION_LANGUAGE STRING [STRING, ...]"
           on :k, :key, "A Google Translate API key (Will attempt to use ENV['GOOGLE_TRANSLATE_API_KEY'] if not supplied)", true, :default => ENV['GOOGLE_TRANSLATE_API_KEY']
           on :t, :to, "The destination language", true
@@ -26,13 +26,7 @@ module ToLang
             puts "ToLang v#{ToLang::VERSION}"
             exit
           end
-          on :h, :help, "Print this help message" do
-            puts help
-            exit
-          end
         end
-
-        self.options.parse! args
 
         abort "A Google Translate API key is required" unless options[:key]
         abort "A valid destination language is required" unless options[:to]

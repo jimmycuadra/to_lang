@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency "httparty", "~> 0.7.0"
-  s.add_dependency "slop", "~> 1.1.0"
+  s.add_dependency "slop", "~> 1.2.0"
   s.add_development_dependency "bundler", "~> 1.0.10"
   s.add_development_dependency "rake", "~> 0.8.7"
   s.add_development_dependency "rspec", "~> 2.5.0"
