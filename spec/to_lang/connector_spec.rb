@@ -13,7 +13,7 @@ describe ToLang::Connector do
         :target => 'es',
         :q => ["banana", "apple"]
       }
-      ToLang::Connector::UNSORTED_QUERY_STRING_NORMALIZER.call(params).should == "key_with_no_value&key=apikey&target=es&q=banana&q=apple"
+      ToLang::Connector::UNSORTED_QUERY_STRING_NORMALIZER.call(params).should =~ /q=banana&q=apple/
     end
   end
 
