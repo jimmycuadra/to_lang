@@ -2,6 +2,10 @@ h1. to_lang
 
 *to_lang* is a Ruby library that adds language translation methods to strings and arrays, backed by the Google Translate API.
 
+h2. Build Stats
+
+"!https://travis-ci.org/jimmycuadra/to_lang.png!":http://travis-ci.org/jimmycuadra/to_lang
+
 h2. Installation
 
 Simply run @gem install to_lang@.
