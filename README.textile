@@ -4,7 +4,7 @@ h1. to_lang
 
 h2. Build Status
 
-"!https://travis-ci.org/jimmycuadra/to_lang.png!":http://travis-ci.org/jimmycuadra/to_lang
+"!https://secure.travis-ci.org/jimmycuadra/to_lang.png!":http://travis-ci.org/jimmycuadra/to_lang
 
 h2. Installation
 
