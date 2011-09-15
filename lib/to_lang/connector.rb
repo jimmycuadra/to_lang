@@ -1,5 +1,6 @@
 require 'httparty'
 require 'cgi'
+require "to_lang/core_ext"
 
 module ToLang
   # Responsible for making the actual HTTP request to the Google Translate API.
