@@ -1,3 +1,5 @@
+"!http://api.coderwall.com/jimmycuadra/endorsecount.png!":http://coderwall/jimmycuadra
+
 h1. to_lang
 
 *to_lang* is a Ruby library that adds language translation methods to strings and arrays, backed by the Google Translate API.
