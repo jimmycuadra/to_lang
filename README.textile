@@ -1,12 +1,10 @@
+"!https://secure.travis-ci.org/jimmycuadra/to_lang.png!":http://travis-ci.org/jimmycuadra/to_lang
+"!https://codeclimate.com/github/jimmycuadra/to_lang.png!":https://codeclimate.com/github/jimmycuadra/to_lang
 "!http://api.coderwall.com/jimmycuadra/endorsecount.png!":http://coderwall.com/jimmycuadra
 
 h1. to_lang
 
 *to_lang* is a Ruby library that adds language translation methods to strings and arrays, backed by the Google Translate API.
-
-h2. Build Status
-
-"!https://secure.travis-ci.org/jimmycuadra/to_lang.png!":http://travis-ci.org/jimmycuadra/to_lang
 
 h2. Installation
 
