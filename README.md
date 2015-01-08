@@ -24,7 +24,7 @@ The dynamic methods are simply syntactic sugar for `String#translate` and `Array
 
 **to_lang** also comes with a command line utility for quick translations from the shell.
 
-h2. String Examples
+## String Examples
 
 Load and initialize **to_lang**:
 
@@ -68,7 +68,7 @@ Arrays can be used to translate a batch of strings in a single method call and a
 ["One", "Two", "Three"].to_spanish # => ["Uno", "Dos", "Tres"]
 ```
 
-h2. Debugging
+## Debugging
 
 `translate` also has the advantage of allowing you to get debug output for a translation. `translate` accepts a `:debug` option with three possible values: `:request`, `:response`, and `:all`. `:request` will cause the method to return a hash of the parameters that will be sent to the Google Translate API. `:response` will cause the method to return the full response from the API call as a hash. `:all` will cause the method to return a hash which contains both the request hash and the full response.
 
@@ -89,7 +89,7 @@ h2. Debugging
 #    "detectedSourceLanguage"=>"en"}]}}}
 ```
 
-h2. Command Line Interface
+## Command Line Interface
 
 The command line utility `to_lang` has the following interface:
 
@@ -124,7 +124,7 @@ hola mundo
 un pastel
 ```
 
-h2. Supported Languages
+## Supported Languages
 
 **to_lang** adds the following methods to strings and arrays. Each of these methods can be called with an explicit source language by appending `_from_source_language` or prepending `from_source_language_` to the method name.
 
