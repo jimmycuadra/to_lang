@@ -7,44 +7,40 @@ describe "A translatable class" do
 
   describe "#translate" do
     it "calls ToLang::Connector#request" do
-      ToLang.connector.stub(:request)
-      ToLang.connector.should_receive(:request).with("hello world", "es")
+      expect(ToLang.connector).to receive(:request).with("hello world", "es")
       "hello world".translate("es")
     end
   end
 
   it "will respond to :to_<language>" do
-    "hello world".should respond_to :to_spanish
+    expect("hello world").to respond_to(:to_spanish)
   end
 
   it "will respond to :to_<target>_from_<source>" do
-    "hello world".should respond_to :to_spanish_from_english
+    expect("hello world").to respond_to(:to_spanish_from_english)
   end
 
   it "will respond to :from_<source>_to_<target>" do
-    "hello world".should respond_to :from_english_to_spanish
+    expect("hello world").to respond_to(:from_english_to_spanish)
   end
 
   it "translates to <language> when sent :to_<language>" do
-    ToLang.connector.stub(:request)
-    ToLang.connector.should_receive(:request).with("hello world", 'es')
+    expect(ToLang.connector).to receive(:request).with("hello world", 'es')
     "hello world".send(:to_spanish)
   end
 
   it "translates to <target> from <source> when sent :to_<target>_from_<source>" do
-    ToLang.connector.stub(:request)
-    ToLang.connector.should_receive(:request).with("hello world", 'es', :from => 'en')
+    expect(ToLang.connector).to receive(:request).with("hello world", 'es', :from => 'en')
     "hello world".send(:to_spanish_from_english)
   end
 
   it "translates to <target> from <source> when sent :from_<source>_to_<target>" do
-    ToLang.connector.stub(:request)
-    ToLang.connector.should_receive(:request).with("hello world", 'es', :from => 'en')
+    expect(ToLang.connector).to receive(:request).with("hello world", 'es', :from => 'en')
     "hello world".send(:from_english_to_spanish)
   end
 
   it "defines magic methods when first called and doesn't call :method_missing after that" do
-    ToLang.connector.stub(:request)
+    allow(ToLang.connector).to receive(:request)
     string = "hello world"
     magic_methods = lambda do
       string.to_spanish
@@ -52,7 +48,7 @@ describe "A translatable class" do
       string.from_english_to_spanish
     end
     magic_methods.call
-    string.should_not_receive(:method_missing)
+    expect(string).not_to receive(:method_missing)
     magic_methods.call
   end
 

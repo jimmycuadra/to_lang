@@ -7,19 +7,19 @@ describe ToLang do
     end
 
     it "returns false if :start was already called" do
-      ToLang.start('apikey').should == false
+      expect(ToLang.start('apikey')).to be_falsy
     end
 
     it "stores a ToLang::Connector object" do
-      ToLang.connector.should be_an_instance_of ToLang::Connector
+      expect(ToLang.connector).to be_an_instance_of(ToLang::Connector)
     end
 
     it "mixes Translatable into String" do
-      String.should include ToLang::Translatable
+      expect(String).to include(ToLang::Translatable)
     end
 
     it "mixes Translatable into Array" do
-      Array.should include ToLang::Translatable
+      expect(Array).to include(ToLang::Translatable)
     end
   end
 end

@@ -12,33 +12,33 @@ describe Hash do
 
     test_hashes.each do |hash, params|
       it "converts hash: #{hash.inspect} to params: #{params.inspect}" do
-        hash.to_params.split('&').sort.should == params.split('&').sort
+        expect(hash.to_params.split('&').sort).to eq(params.split('&').sort)
       end
     end
 
     it "doesn't leave a trailing &" do
-      {
+      expect({
         :name => 'Bob',
         :address => {
           :street => '111 Ruby Ave.',
           :city => 'Ruby Central',
           :phones => ['111-111-1111', '222-222-2222']
         }
-      }.to_params.should_not =~ /&$/
+      }.to_params).not_to match(/&$/)
     end
 
     it "URL encodes unsafe characters" do
-      { :q => "?&\" +" }.to_params.should == "q=%3F%26%22%20%2B"
+      expect({ :q => "?&\" +" }.to_params).to eq("q=%3F%26%22%20%2B")
     end
 
     it "converts deeply nested hashes" do
-      {
+      expect({
         :one => {
           :two => {
             :three => true
           }
         }
-      }.to_params.should == "one[two][three]=true"
+      }.to_params).to eq("one[two][three]=true")
     end
   end
 end
